@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'fursuit-weather'
+    static_configs:
+      - targets: ['fursuit-weather:9998']

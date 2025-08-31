@@ -1,0 +1,8 @@
+.env
+venv/
+logs/
+uploads
+grafana_data/
+prometheus_data/
+fursuit-weather/
+grafana/dashboards/*.json

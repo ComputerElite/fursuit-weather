@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana_data:/var/lib/grafana:rw
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_USERS_DEFAULT_HOME_DASHBOARD_PATH=/d/c9cc63da-03ba-4d24-a1c2-1f2332d15cf0/suit
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+  fursuit-weather:
+    build:
+      context: ./
+    ports:
+      - "9999:9999"
+      - "9998:9998"
+    restart: unless-stopped
+    volumes:
+      - ./fursuit-weather:/app/data/
+    env_file:
+      - .env
+
+volumes:
+  prometheus_data:
+  grafana_data:
