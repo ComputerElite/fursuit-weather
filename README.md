@@ -1,4 +1,5 @@
-# Fursuit Weather collector
+> [!WARNING]
+> This repository has moved to Codeberg: https://codeberg.org/kaiya/fursuit-weather # Fursuit Weather collector
 Containerized solution for collecting the data sent by [my fursuit code](https://github.com/ComputerElite/fursuit)
 
 ## Configuration
